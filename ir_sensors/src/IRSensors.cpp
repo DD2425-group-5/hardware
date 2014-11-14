@@ -1,13 +1,8 @@
 #include "IRSensors.hpp"
 
-/*void mazerunner:feedbackCallback(int argc, char *argv[]){
-
-}*/
-
 void IRSensors::sensorCallback(const ras_arduino_msgs::ADConverter msg){
 	int tmp[] ={msg.ch1, msg.ch2, msg.ch3, msg.ch4, msg.ch7, msg.ch8};
-	for(int i=0; i<6; i++){
-		//sensors[i].calculateDistance(tmp[i]);
+	for(int i = 0; i<6; i++){
 		sensors[i].calculateDistanceExp(tmp[i]);
 	}
 	ROS_INFO("sensor distance: 1: [%f] 2: [%f] 3: [%f] 4: [%f] 5: [%f] 6: [%f] \n\n",\
@@ -22,7 +17,7 @@ void IRSensors::sensorCallback(const ras_arduino_msgs::ADConverter msg){
 void IRSensors::runNode(){
 
 	ros::Rate loop_rate(10);	//10 Hz
-	while (ros::ok())			//main loop of this code
+	while (ros::ok())		//main loop of this code
 	{
 		
 
@@ -36,6 +31,15 @@ void IRSensors::runNode(){
 IRSensors::IRSensors(int argc, char *argv[]){
 	ros::init(argc, argv, "ir_sensors");	// Name of node
 	ros::NodeHandle handle;			// Handle node
+	
+	sensors = std::vector<sensor>(6);
+
+	double a0, b0, c0, d0;
+	double a1, b1, c1, d1;
+	double a2, b2, c2, d2;
+	double a3, b3, c3, d3;
+	double a4, b4, c4, d4;
+	double a5, b5, c5, d5;
 
 	ROSUtil::getParam(handle, "/sensorcalib/a0", a0);
 	ROSUtil::getParam(handle, "/sensorcalib/b0", b0);
@@ -65,18 +69,21 @@ IRSensors::IRSensors(int argc, char *argv[]){
 
 	/* Setup sensor calibration, using exponential fitting */
 
-	sensors[0].calibrateExp(a0, b0, c0, d0, false);	
-	sensors[1].calibrateExp(a1, b1, c1, d1, false);	
-	sensors[2].calibrateExp(a2, b2, c2, d2, false);	
-	sensors[3].calibrateExp(a3, b3, c3, d3, false);
+	sensors[0] = sensor(a0, b0, c0, d0, false);	
+	sensors[1] = sensor(a1, b1, c1, d1, false);	
+	sensors[2] = sensor(a2, b2, c2, d2, false);	
+	sensors[3] = sensor(a3, b3, c3, d3, false);
 
-	sensors[4].calibrateExp(a4, b4, c4, d4, true);
-	sensors[5].calibrateExp(a5, b5, c5, d5, true);
+	sensors[4] = sensor(a4, b4, c4, d4, true);
+	sensors[5] = sensor(a5, b5, c5, d5, true);
    	
+	sub_adc = handle.subscribe("/arduino/adc", 1000, &IRSensors::sensorCallback, this);
+
 	runNode();
 }
 
-int main(int argc, char *argv[]) 
-{
+int main(int argc, char *argv[]) {
+
     IRSensors IRSensors(argc, argv);
+
 }

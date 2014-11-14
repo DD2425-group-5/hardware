@@ -1,17 +1,23 @@
 #include "IRSensors.hpp"
 
 void IRSensors::sensorCallback(const ras_arduino_msgs::ADConverter msg){
+	
 	int tmp[] ={msg.ch1, msg.ch2, msg.ch3, msg.ch4, msg.ch7, msg.ch8};
 	for(int i = 0; i<6; i++){
 		sensors[i].calculateDistanceExp(tmp[i]);
 	}
-	ROS_INFO("sensor distance: 1: [%f] 2: [%f] 3: [%f] 4: [%f] 5: [%f] 6: [%f] \n\n",\
-	sensors[0].get_distance(),\
-	sensors[1].get_distance(),\
-	sensors[2].get_distance(),\
-	sensors[3].get_distance(),\
-	sensors[4].get_distance(),\
-	sensors[5].get_distance());
+	
+	ir_sensors::IRDists output;
+	
+	output.s0 = sensors[0].get_distance();
+	output.s1 = sensors[1].get_distance();
+	output.s2 = sensors[2].get_distance();
+	output.s3 = sensors[3].get_distance();
+	output.s4 = sensors[4].get_distance();
+	output.s5 = sensors[5].get_distance();
+
+	pub_dists.publish(output);
+
 }
 
 void IRSensors::runNode(){
@@ -78,7 +84,7 @@ IRSensors::IRSensors(int argc, char *argv[]){
 	sensors[5] = sensor(a5, b5, c5, d5, true);
    	
 	sub_adc = handle.subscribe("/arduino/adc", 1000, &IRSensors::sensorCallback, this);
-
+	pub_dists = handle.advertise<ir_sensors::IRDists>("/ir_sensors/dists", 1000);
 	runNode();
 }
 

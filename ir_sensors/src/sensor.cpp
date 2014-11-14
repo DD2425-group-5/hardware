@@ -9,9 +9,19 @@ void sensor::calculateDistanceExp(int val){
 	value = val;
 	
 	distance = a*std::exp(b*val) + c*std::exp(d*val);
-	if (distance > 30 && !lrange){
-		distance = 30;
-	}
+	if (lrange){
+		if (distance > 80){
+			distance = 150;
+	    } else if (distance < 10){
+            distance = -1;  
+        }
+    } else {
+	    if (distance > 30){
+		    distance = 150;
+	    } else if (distance < 4){
+            distance = -1;
+        }
+    }
 
 }
 

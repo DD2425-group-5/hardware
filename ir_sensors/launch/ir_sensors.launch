@@ -1,7 +1,6 @@
 <launch>
 
 	<node name="ir_sensors" pkg="ir_sensors" type="ir_sensors" output="screen" />
-	<rosparam file="$(find ir_sensors)/config/paramswf.yaml" command="load" />
 	<rosparam file="$(find ir_sensors)/config/paramsens.yaml" command="load" />
 	
 </launch>

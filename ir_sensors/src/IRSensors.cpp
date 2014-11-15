@@ -2,7 +2,7 @@
 
 void IRSensors::sensorCallback(const ras_arduino_msgs::ADConverter msg){
     // Construct IR distances message and store it in the 
-    output = ir_sensors::IRDists();
+    output = hardware_msgs::IRDists();
 
     output.s0 = sensors[0].calculateDistanceExp(msg.ch1);
     output.s1 = sensors[1].calculateDistanceExp(msg.ch2);
@@ -30,7 +30,7 @@ IRSensors::IRSensors(int argc, char *argv[]){
     ros::NodeHandle handle;			// Handle node
 	
     sensors = std::vector<Sensor>(6);
-    output = ir_sensors::IRDists();
+    output = hardware_msgs::IRDists();
 
     double a0, b0, c0, d0;
     double a1, b1, c1, d1;
@@ -75,7 +75,7 @@ IRSensors::IRSensors(int argc, char *argv[]){
     // The adc subscriber has a queue length of 1 - it should only process the
     // latest message when ros spins.
     sub_adc = handle.subscribe("/arduino/adc", 1, &IRSensors::sensorCallback, this);
-    pub_dists = handle.advertise<ir_sensors::IRDists>("/ir_sensors/dists", 1000);
+    pub_dists = handle.advertise<hardware_msgs::IRDists>("/ir_sensors/dists", 1000);
     runNode();
 }
 

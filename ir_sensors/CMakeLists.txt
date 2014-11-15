@@ -6,23 +6,12 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rosutil
   std_msgs
-  message_generation
-)
-
-add_message_files(
-  FILES
-  IRDists.msg
-)
-
-generate_messages(
-  DEPENDENCIES
-  std_msgs
 )
 
 catkin_package(
-  DEPENDS orocos_kdl
-  CATKIN_DEPENDS ras_arduino_msgs roscpp rosutil std_msgs message_runtime
-  INCLUDE_DIRS
+#  DEPENDS orocos_kdl
+  CATKIN_DEPENDS ras_arduino_msgs roscpp rosutil std_msgs
+#  INCLUDE_DIRS
 )
 
 include_directories(

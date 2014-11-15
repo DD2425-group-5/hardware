@@ -10,13 +10,15 @@
 
 class IRSensors {
 public:
-	IRSensors(int argc, char *argv[]);
+    IRSensors(int argc, char *argv[]);
 	
 private:
-	std::vector<sensor> sensors;
-	ros::Subscriber sub_adc;	//sub to get distance values
-	ros::Publisher pub_dists;
-	
-	void runNode();
-	void sensorCallback(const ras_arduino_msgs::ADConverter msg);
+    std::vector<Sensor> sensors;
+    ros::Subscriber sub_adc;	//sub to get distance values
+    ros::Publisher pub_dists;
+
+    ir_sensors::IRDists output;
+
+    void runNode();
+    void sensorCallback(const ras_arduino_msgs::ADConverter msg);
 };

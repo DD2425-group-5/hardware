@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(logger)
+project(odometry)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES logger
+#  LIBRARIES 
 #  CATKIN_DEPENDS roscpp std_msgs
 #  DEPENDS system_lib
 )
@@ -17,6 +17,6 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(logger src/logger.cpp)
-target_link_libraries(logger ${catkin_LIBRARIES})
-add_dependencies(logger ${catkin_EXPORTED_TARGETS})
+add_executable(odometry src/odometry.cpp)
+target_link_libraries(odometry ${catkin_LIBRARIES})
+add_dependencies(odometry ${catkin_EXPORTED_TARGETS})

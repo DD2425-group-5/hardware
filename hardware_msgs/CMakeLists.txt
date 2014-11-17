@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   IRDists.msg
+  Odometry.msg
 )
 
 generate_messages(

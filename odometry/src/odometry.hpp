@@ -6,9 +6,9 @@
 #include "ir_sensors/IRDists.h"
 
 
-class logger {
+class Odometry {
 public:
-	logger(int argc, char *argv[]);
+	Odometry(int argc, char *argv[]);
 	
 private:
 	ros::Subscriber sub_sensor;	//sub to get distance values

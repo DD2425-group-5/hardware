@@ -5,6 +5,8 @@
 #include "std_msgs/Bool.h"
 #include "hardware_msgs/IRDists.h"
 #include "hardware_msgs/Odometry.h"
+#include <rosutil/rosutil.hpp>
+#include <sstream>
 
 
 class Odometry {
@@ -14,6 +16,9 @@ public:
 private:
 	int startL;
 	int startR;
+	float wheelRadius;
+	float distance;
+	float distanceSinceLast;
 	
     ros::Subscriber sub_sensor;	//sub to get distance values
     ros::Subscriber sub_encoder;// for encoder feedback

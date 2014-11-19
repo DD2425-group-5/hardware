@@ -4,6 +4,7 @@ project(odometry)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  rosutil
 )
 
 catkin_package(
@@ -18,5 +19,5 @@ include_directories(
 )
 
 add_executable(odometry src/odometry.cpp)
-target_link_libraries(odometry ${catkin_LIBRARIES})
+target_link_libraries(odometry ${catkin_LIBRARIES} rosutil)
 add_dependencies(odometry ${catkin_EXPORTED_TARGETS})

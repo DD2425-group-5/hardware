@@ -12,6 +12,9 @@ public:
     Odometry(int argc, char *argv[]);
 	
 private:
+	int startL;
+	int startR;
+	
     ros::Subscriber sub_sensor;	//sub to get distance values
     ros::Subscriber sub_encoder;// for encoder feedback
     ros::Subscriber sub_isTurning;// for encoder feedback

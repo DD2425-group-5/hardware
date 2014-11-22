@@ -8,6 +8,10 @@ void Odometry::isTurningCallback(const controller_msgs::Turning msg){
     //ROS_INFO("GOT MESSAGE %f",msg.degrees);
 	if(msg.isTurning){
 		isTurning=1;
+		startL=-1;
+		startR=-1;
+		distance=0.0;
+		distanceSinceLast=0.0;
 	}
 	else{
 		isTurning=0;
@@ -16,21 +20,23 @@ void Odometry::isTurningCallback(const controller_msgs::Turning msg){
 
 void Odometry::encoderCallback(const ras_arduino_msgs::Encoders enc){
 	//ROS_INFO("ENCODER %f",wheelRadius);
-	if(startL==-1){
-		startL=enc.encoder1;
+	if(!isTurning){
+		if(startL==-1){
+			startL=enc.encoder1;
+		}
+		if(startR==-1){
+			startR=enc.encoder2;
+		}
+		int tmpL=0;
+		int tmpR=0;
+		tmpL=startL-enc.encoder1;
+		tmpR=startR-enc.encoder2;
+		float avgTicks = ((float)tmpL+(float)tmpR)/2.0;
+		distanceSinceLast = distance;
+		distance = (avgTicks/180)*(wheelRadius*3.1415);
+		distanceSinceLast = distance-distanceSinceLast;
+		//ROS_INFO("L dist: %d R dist: %d dist: %f cm",tmpL,tmpR,distance);
 	}
-	if(startR==-1){
-		startR=enc.encoder2;
-	}
-	int tmpL=0;
-	int tmpR=0;
-	tmpL=startL-enc.encoder1;
-	tmpR=startR-enc.encoder2;
-	float avgTicks = ((float)tmpL+(float)tmpR)/2.0;
-	distanceSinceLast = distance;
-	distance = (avgTicks/180)*(wheelRadius*3.1415);
-	distanceSinceLast = distance-distanceSinceLast;
-	//ROS_INFO("L dist: %d R dist: %d dist: %f cm",tmpL,tmpR,distance);
 }
 
 void Odometry::runNode(){

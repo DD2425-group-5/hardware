@@ -14,7 +14,7 @@ void IRSensors::sensorCallback(const ras_arduino_msgs::ADConverter msg){
 
 void IRSensors::runNode(){
 
-    ros::Rate loop_rate(10);	//10 Hz
+    ros::Rate loop_rate(50);	//50 Hz
     while (ros::ok())		//main loop of this code
     {
         ros::spinOnce();

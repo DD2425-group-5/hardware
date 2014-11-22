@@ -22,7 +22,8 @@ float Sensor::calculateDistanceExp(int val){
             distance = -1;
         }
     }
-    return distance;
+    // return distance in metres.
+    return distance/100;
 }
 
 int Sensor::get_value(){

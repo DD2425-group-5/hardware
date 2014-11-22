@@ -5,6 +5,7 @@
 #include "std_msgs/Bool.h"
 #include "hardware_msgs/IRDists.h"
 #include "hardware_msgs/Odometry.h"
+#include "controller_msgs/Turning.h"
 #include <rosutil/rosutil.hpp>
 #include <sstream>
 
@@ -19,6 +20,7 @@ private:
 	float wheelRadius;
 	float distance;
 	float distanceSinceLast;
+	int isTurning;
 	
     ros::Subscriber sub_sensor;	//sub to get distance values
     ros::Subscriber sub_encoder;// for encoder feedback
@@ -26,7 +28,7 @@ private:
     ros::Publisher pub_odom;
 	
     void runNode();
-    void sensorCallback(const hardware_msgs::IRDists msg);
+    //void sensorCallback(const hardware_msgs::IRDists msg);
     void encoderCallback(const ras_arduino_msgs::Encoders feedback);
-    void isTurningCallback(const std_msgs::Bool msg);
+    void isTurningCallback(const controller_msgs::Turning msg);
 };

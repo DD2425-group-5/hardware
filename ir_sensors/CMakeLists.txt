@@ -14,9 +14,7 @@ catkin_package(
 #  INCLUDE_DIRS
 )
 
-include_directories(
-  ${catkin_INCLUDE_DIRS}
-)
+include_directories(include ${catkin_INCLUDE_DIRS})
 
 add_executable(ir_sensors src/IRSensors.cpp)
 target_link_libraries(ir_sensors ${catkin_LIBRARIES} rosutil)

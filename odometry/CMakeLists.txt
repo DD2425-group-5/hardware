@@ -5,12 +5,13 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   rosutil
+  ras_arduino_msgs
 )
 
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES 
-#  CATKIN_DEPENDS roscpp std_msgs
+  CATKIN_DEPENDS roscpp std_msgs rosutil ras_arduino_msgs
 #  DEPENDS system_lib
 )
 

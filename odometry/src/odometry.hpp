@@ -15,8 +15,13 @@ public:
     Odometry(int argc, char *argv[]);
 	
 private:
-	int startL;
-	int startR;
+	int startL;		//left encoder at beginning of segment
+	int startR;		//right -||-
+	int lastL;		//last L encoder value
+	int lastR;		//-||- R -||-
+	int originalL;
+	int originalR;
+	
 	float wheelRadius;
 	float distance;
 	float distanceSinceLast;

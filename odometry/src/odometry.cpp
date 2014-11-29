@@ -39,17 +39,22 @@ void Odometry::encoderCallback(const ras_arduino_msgs::Encoders enc){
 	}
 	if(lastL==-1){
 		lastL = enc.encoder1;
-		originalL = lastL;
 	}
 	if(lastR==-1){
 		lastR = enc.encoder2;
-		originalR = lastR;
+	}
+	if(originalL==-1){
+		originalL = enc.encoder1;
+	}
+	if(originalR==-1){
+		originalR = enc.encoder2;
 	}
 	if (lastL!=-1 || lastR!=-1){
 		int changeL = lastL - enc.encoder1;
 		int changeR = lastR - enc.encoder2;
 		int tmp1 = originalL - enc.encoder1;
 		int tmp2 = originalR - enc.encoder2;
+		
 		//ROS_INFO("changeL = %d changeR = %d diff = %d",changeL,changeR,changeL-changeR);
 		//ROS_INFO("L = %d R = %d diff = %d",tmp1,tmp2,tmp1-tmp2);
 		lastL = enc.encoder1;
@@ -89,6 +94,9 @@ Odometry::Odometry(int argc, char *argv[]){
 	
 	lastL = -1;
 	lastR = -1;
+	
+	originalL = -1;
+	originalR = -1;
 	
 	std::string encoder_sub_topic;
     ROSUtil::getParam(handle, "/topic_list/robot_topics/published/encoder_topic", encoder_sub_topic);

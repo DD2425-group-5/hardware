@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
+#include "geometry_msgs/PoseStamped.h"
 #include "ras_arduino_msgs/ADConverter.h"
 #include "ras_arduino_msgs/Encoders.h"
 #include "std_msgs/Bool.h"
@@ -10,6 +11,7 @@
 #include <sstream>
 #include <cmath>
 #include "mathutil/mathutil.hpp"
+#include <Eigen/Geometry>
 
 
 class Odometry {
@@ -42,6 +44,7 @@ private:
     ros::Subscriber sub_encoder;// for encoder feedback
     ros::Subscriber sub_isTurning;// for encoder feedback
     ros::Publisher pub_odom;
+    ros::Publisher pub_pose;
 	
     void runNode();
     //void sensorCallback(const hardware_msgs::IRDists msg);

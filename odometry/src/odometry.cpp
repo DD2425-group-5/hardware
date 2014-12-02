@@ -113,8 +113,19 @@ void Odometry::runNode(){
 		msg.distanceTotal = distance;
 		msg.distanceFromLast = distanceSinceLast;
 		
+		Eigen::Quaternionf eigenPose;
+	    eigenPose = Eigen::AngleAxis<float>(thetaNew, Eigen::Vector3f::UnitZ());
+		geometry_msgs::PoseStamped rvizPose;
+		rvizPose.pose.orientation.x = eigenPose.x();
+		rvizPose.pose.orientation.y = eigenPose.y();
+		rvizPose.pose.orientation.z = eigenPose.z();
+		rvizPose.pose.orientation.w = eigenPose.w();
+		rvizPose.pose.position.x = xNew;
+		rvizPose.pose.position.y = yNew;
+		rvizPose.header.frame_id = "kur";
 		if(!isTurning){
 			pub_odom.publish(msg);		//pub to odometry
+			pub_pose.publish(rvizPose);     //publish to rviz for pose
 		}
 		
 		ros::spinOnce();
@@ -143,6 +154,8 @@ Odometry::Odometry(int argc, char *argv[]){
     ROSUtil::getParam(handle, "/topic_list/robot_topics/published/encoder_topic", encoder_sub_topic);
 	std::string odometry_pub_topic;
     ROSUtil::getParam(handle, "/topic_list/hardware_topics/odometry/published/odometry_topic", odometry_pub_topic);
+    std::string pose_pub_topic;
+    ROSUtil::getParam(handle, "/topic_list/hardware_topics/odometry/published/pose_topic", pose_pub_topic);
 	std::string turn_sub_topic;
     ROSUtil::getParam(handle, "/topic_list/controller_topics/wallfollower/published/turning_topic", turn_sub_topic);
 	ROSUtil::getParam(handle, "/robot_info/wheel_radius", wheelRadius);
@@ -154,6 +167,7 @@ Odometry::Odometry(int argc, char *argv[]){
     sub_isTurning = handle.subscribe(turn_sub_topic, 1, &Odometry::isTurningCallback, this);
     sub_encoder = handle.subscribe(encoder_sub_topic, 1, &Odometry::encoderCallback, this);
     pub_odom = handle.advertise<hardware_msgs::Odometry>(odometry_pub_topic, 1);
+    pub_pose = handle.advertise<geometry_msgs::PoseStamped>(pose_pub_topic, 10);
 	
     runNode();
 }

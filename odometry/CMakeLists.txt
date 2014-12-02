@@ -2,18 +2,21 @@ cmake_minimum_required(VERSION 2.8.3)
 project(odometry)
 
 find_package(catkin REQUIRED COMPONENTS
-  eigen REQUIRED
   roscpp
   std_msgs
   rosutil
   ras_arduino_msgs
   mathutil
+  geometry_msgs
 )
+
+
+find_package(eigen REQUIRED)
 
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES 
-  CATKIN_DEPENDS roscpp std_msgs rosutil ras_arduino_msgs mathutil
+  CATKIN_DEPENDS roscpp std_msgs rosutil ras_arduino_msgs mathutil geometry_msgs
 #  DEPENDS system_lib
 )
 

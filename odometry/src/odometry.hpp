@@ -8,6 +8,8 @@
 #include "controller_msgs/Turning.h"
 #include <rosutil/rosutil.hpp>
 #include <sstream>
+#include <cmath>
+#include "mathutil/mathutil.hpp"
 
 
 class Odometry {
@@ -21,8 +23,17 @@ private:
 	int lastR;		//-||- R -||-
 	int originalL;
 	int originalR;
+	float xNew;
+    float yNew;
+    float thetaNew;
+    float thetaOld;
+    float xOld;
+    float yOld;
 	
 	float wheelRadius;
+	float linearDistanceL;
+	float linearDistanceR;
+	float robotBase;
 	float distance;
 	float distanceSinceLast;
 	int isTurning;

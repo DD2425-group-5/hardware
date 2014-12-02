@@ -50,7 +50,8 @@
   <build_depend>rosutil</build_depend>
   <run_depend>ras_arduino_msgs</run_depend>
   <build_depend>ras_arduino_msgs</build_depend>
-
+  <run_depend>mathutil</run_depend>
+  <build_depend>mathutil</build_depend>
 
 
 

@@ -112,6 +112,9 @@ void Odometry::runNode(){
 		
 		msg.distanceTotal = distance;
 		msg.distanceFromLast = distanceSinceLast;
+		msg.totalX = xNew;
+		msg.totalY = yNew;
+		msg.latestHeading = thetaNew;
 		
 		Eigen::Quaternionf eigenPose;
 	    eigenPose = Eigen::AngleAxis<float>(thetaNew, Eigen::Vector3f::UnitZ());

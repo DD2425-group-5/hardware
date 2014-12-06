@@ -10,6 +10,7 @@ add_message_files(
   FILES
   IRDists.msg
   Odometry.msg
+  GlobalOdometry.msg
 )
 
 generate_messages(

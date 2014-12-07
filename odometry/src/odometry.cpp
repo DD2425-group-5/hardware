@@ -134,7 +134,6 @@ void Odometry::runNode(){
 		ros::spinOnce();
 		loop_rate.sleep();
 	}
-    while(1){}
 }
 
 Odometry::Odometry(int argc, char *argv[]){
@@ -144,7 +143,7 @@ Odometry::Odometry(int argc, char *argv[]){
 	startL=-1;
 	startR=-1;
 	distance=0.0;
-	distanceSinceLast=0.0;
+	distanceSinceLast = M_PI/2.0;
 	isTurning=0;
 	
 	lastL = -1;

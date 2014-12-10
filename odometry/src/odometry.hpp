@@ -31,7 +31,7 @@ private:
     float thetaOld;
     float xOld;
     float yOld;
-	
+    	
 	float wheelRadius;
 	float linearDistanceL;
 	float linearDistanceR;
@@ -50,4 +50,5 @@ private:
     //void sensorCallback(const hardware_msgs::IRDists msg);
     void encoderCallback(const ras_arduino_msgs::Encoders feedback);
     void isTurningCallback(const controller_msgs::Turning msg);
+	float constrainAngle(float x);
 };

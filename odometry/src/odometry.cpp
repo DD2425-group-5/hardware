@@ -48,8 +48,8 @@ void Odometry::encoderCallback(const ras_arduino_msgs::Encoders enc){
 		xNew = 0.0;
         yNew= 0.0;
         thetaNew = 0.0;
-        thetaOld = 0.0;
-        xOld = 0.0;
+        thetaOld = 0.0 - 0*90.0*M_PI/180.0;
+        xOld = 0.0 + 0*0.65;
         yOld= 0.0;
         linearDistanceL = 0;
         linearDistanceR = 0;
@@ -57,6 +57,15 @@ void Odometry::encoderCallback(const ras_arduino_msgs::Encoders enc){
 	}
 	if(originalR==-1){
 		originalR = enc.encoder2;
+		xNew = 0.0;
+        yNew= 0.0;
+        thetaNew = 0.0;
+        thetaOld = 0.0 - 0*90.0*M_PI/180.0;
+        xOld = 0.0+ 0*0.65;
+        yOld= 0.0;
+        linearDistanceL = 0;
+        linearDistanceR = 0;
+        ROS_INFO("Stuff is reset to 0!");
 	}
 	if (lastL!=-1 || lastR!=-1){
 		int changeL = lastL - enc.encoder1;
@@ -89,6 +98,8 @@ void Odometry::encoderCallback(const ras_arduino_msgs::Encoders enc){
               cos( thetaOld) );
             
             thetaNew = thetaOld+((linearDistanceR-linearDistanceL)/robotBase);
+            ROS_INFO("Angle before [%f] and after conversion [%f]", thetaNew,Odometry::constrainAngle(thetaNew)); 
+            thetaNew = Odometry::constrainAngle(thetaNew);
         }
 		//ROS_INFO("L = %d R = %d diff = %d",tmp1,tmp2,tmp1-tmp2);
 		//publish
@@ -102,6 +113,17 @@ void Odometry::encoderCallback(const ras_arduino_msgs::Encoders enc){
 		//loop
 	}
 }
+
+
+float Odometry::constrainAngle(float x){
+    x = x*180.0/M_PI;
+    x = fmod(x + 180,360);
+    if (x < 0){
+        x += 360;
+    }
+return ((x - 180)*M_PI/180.0);
+}
+
 
 void Odometry::runNode(){
     ros::Rate loop_rate(50);	//10 Hz
